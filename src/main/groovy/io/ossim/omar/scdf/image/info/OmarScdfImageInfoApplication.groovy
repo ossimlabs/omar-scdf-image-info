@@ -38,7 +38,7 @@ class OmarScdfImageInfoApplication implements CommandLineRunner
      */
     static final void main(String[] args)
     {
-        SpringApplication.run OmarScdfStagerApplication, args
+        SpringApplication.run OmarScdfImageInfoApplication, args
     }
 
     /**
