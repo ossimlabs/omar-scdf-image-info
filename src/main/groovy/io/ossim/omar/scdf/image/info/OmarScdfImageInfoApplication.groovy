@@ -27,6 +27,7 @@ class OmarScdfImageInfoApplication implements CommandLineRunner
     // OSSIM Environment variables
 
     @Value('${ossim.prefs.file:/usr/share/ossim/ossim-site-preferences}')
+    private String ossimPrefsFile
 
     @Value('${ossim.data:/data}')
     private String ossimData
