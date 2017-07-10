@@ -6,7 +6,7 @@ This means it:
 3. Sends the result on a Spring Cloud output stream using Kafka to a listening SCDF Processor or SCDF Sink.
 
 ## Purpose
-The Image Info app receives a JSON message from the Stager containing the filename and path of a staged image, as well as the result of the stage. If the histogram and overview were successfully created, the Image Info app then attempts to retrieve the metadata for the given image. Finally, the Image Info app passes that metadata on to the Indexer app to have it added to the database.
+The Image Info app receives a JSON message from the Stager app containing the filename and path of a staged image, as well as the result of the stage. If the histogram and overview were successfully created, the Image Info app then attempts to retrieve the metadata for the given image. Finally, the Image Info app passes that metadata on to the Indexer app to have it added to the database.
 
 ## JSON Input Example (from the Stager)
 ```json
