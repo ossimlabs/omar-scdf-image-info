@@ -13,6 +13,7 @@ import org.springframework.cloud.stream.messaging.Processor
 import org.springframework.messaging.Message
 import org.springframework.messaging.handler.annotation.SendTo
 import joms.oms.Init
+import joms.oms.DataInfo
 
 /**
  * Created by slallier on 7/10/2017
@@ -50,7 +51,7 @@ class OmarScdfImageInfoApplication implements CommandLineRunner
     final String handleImageInfoRequest(final Message<?> message)
     {
         log.debug("Received message ${message} containing the name of a file to get the image info for")
-        boolean metadataCreated = false
+        boolean imageInfoRetrieved = false
 
         if (null != message.payload)
         {
@@ -61,15 +62,16 @@ class OmarScdfImageInfoApplication implements CommandLineRunner
             // generate image info/metadata
             log.debug("Generating image metadata for ${filename}")
 
-            JsonBuilder metadata = generateImageMetadata(filename)
-            metadataCreated = true
+            String imageInfoData = retrieveImageInfo(filename)
+
+            imageInfoRetrieved = imageInfoData != ""
 
             // Return filename and result of image info request
             JsonBuilder imageInfo = new JsonBuilder()
             imageInfo(
                     filename : filename,
-                    metadataCreated : metadataCreated,
-                    metadata: metadata
+                    imageInfoRetrieved : imageInfoRetrieved,
+                    imageInfo: imageInfoData
             )
 
             log.debug("Sending result to output stream -- ${imageInfo.toString()}")
@@ -86,15 +88,29 @@ class OmarScdfImageInfoApplication implements CommandLineRunner
     * Method to generate image info given a filename
     * @return String containing Json image metadata
     */
-    final private JsonBuilder generateImageMetadata(String filename)
+    final String retrieveImageInfo(String filename)
     {
-        // generate image metadata
-        log.info("Generating image metadata")
-        return new JsonBuilder()
+        String toReturn = ""
+        DataInfo dataInfo = new DataInfo()
+
+        if (dataInfo.open(filename))
+        {
+            def xml = new XmlSlurper().parseText(dataInfo.getImageInfo())
+            toReturn = xml.toString()
+            log.debug("Successfully retrieved image info for ${filename}")
+        }
+        else
+        {
+            log.debug("Failed to retrieve image info for ${filename}")
+        }
+
+        dataInfo.delete()
+
+        return toReturn
     }
 
     @Override
-    void run(String... args) throws Exception {
+    void run(String... args) throws Exception  {
         log.debug("OSSIM_PREFS_FILE: ${ossimPrefsFile}")
         log.debug("OSSIM_DATA: ${ossimData}")
 
