@@ -95,7 +95,7 @@ class OmarScdfImageInfoApplication implements CommandLineRunner
 
         if (dataInfo.open(filename))
         {
-            def xml = new XmlSlurper().parseText(dataInfo.getImageInfo())
+            def xml = new XmlSlurper().parseText(dataInfo.getInfo())
             toReturn = xml.toString()
             log.debug("Successfully retrieved image info for ${filename}")
         }
