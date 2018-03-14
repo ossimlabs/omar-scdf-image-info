@@ -21,5 +21,5 @@ The Image Info app receives a JSON message from the Stager app containing the fi
 {
    "filename":"/data/2017/06/22/09/933657b1-6752-42dc-98d8-73ef95a5e780/12345/SCDFTestImages/tiff/14SEP12113301-M1BS-053951940020_01_P001.TIF",
    "metadataCreated":true
-}
+}.
 ```
