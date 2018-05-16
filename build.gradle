@@ -9,7 +9,9 @@ buildscript {
 	repositories {
 		mavenLocal()
 		maven { url "${ossimMavenProxy}" }
-		maven { url "https://repo.grails.org/grails/core" }
+		if( !System.env.WWW_CONNECTED || Boolean.parseBoolean( System.env.WWW_CONNECTED ) ) {
+			maven { url "https://repo.grails.org/grails/core" }
+		}
 	}
 	dependencies {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
@@ -29,7 +31,9 @@ sourceCompatibility = 1.8
 repositories {
     mavenLocal()
     maven { url "${ossimMavenProxy}" }
-    mavenCentral()
+	if( !System.env.WWW_CONNECTED || Boolean.parseBoolean( System.env.WWW_CONNECTED ) ) {
+    	mavenCentral()
+	}
 }
 
 
